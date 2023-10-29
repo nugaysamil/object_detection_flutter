@@ -50,6 +50,8 @@ class ImageUtils {
         final u = cameraImage.planes[1].bytes[uvIndex];
         final v = cameraImage.planes[2].bytes[uvIndex];
 
+        image.data![index] = ImageUtils.yuv2rgb(y, u, v); //
+
       }
     }
     return image;

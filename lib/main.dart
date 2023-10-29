@@ -1,14 +1,23 @@
+import 'package:camera/camera.dart';
 import 'package:deneeme_tflite_new/ui/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-void main() async {
+List<CameraDescription>? cameras;
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runApp(MyApp());
+  try {
+    cameras = await availableCameras();
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  } on CameraException catch (e) {
+    print('Error $e');
+  }
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

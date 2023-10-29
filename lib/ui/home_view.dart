@@ -2,7 +2,6 @@ import 'package:deneeme_tflite_new/tflite/recognition.dart';
 import 'package:deneeme_tflite_new/tflite/stats.dart';
 import 'package:deneeme_tflite_new/ui/box_widget.dart';
 import 'package:deneeme_tflite_new/ui/camera_view_singleton.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
@@ -11,6 +10,7 @@ import 'camera_view.dart';
 /// [HomeView] stacks [CameraView] and [BoxWidget]s with bottom sheet for stats
 class HomeView extends StatefulWidget {
   @override
+  // ignore: library_private_types_in_public_api
   _HomeViewState createState() => _HomeViewState();
 }
 
@@ -35,7 +35,7 @@ class _HomeViewState extends State<HomeView> {
           CameraView(resultsCallback, statsCallback),
 
           // Bounding boxes
-          boundingBoxes(results!),
+          boundingBoxes(results ?? []),
 
           // Heading
           Align(

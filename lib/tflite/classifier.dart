@@ -17,8 +17,8 @@ class Classifier {
   /// Labels file loaded as list
   List<String>? _labels;
 
-  static const String MODEL_FILE_NAME = "detect.tflite";
-  static const String LABEL_FILE_NAME = "labelmap.txt";
+  static const String MODEL_FILE_NAME = "tensorflow_model.tflite";
+  static const String LABEL_FILE_NAME = "labels.txt";
 
   /// Input size of image (height = width = 300)
   static const int INPUT_SIZE = 300;
