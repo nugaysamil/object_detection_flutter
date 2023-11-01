@@ -8,7 +8,6 @@ import 'package:image/image.dart' as imageLib;
 import 'package:tflite_flutter_helper_plus/tflite_flutter_helper_plus.dart';
 import 'stats.dart';
 
-
 /// Classifier
 class Classifier {
   /// Instance of Interpreter
@@ -17,8 +16,8 @@ class Classifier {
   /// Labels file loaded as list
   List<String>? _labels;
 
-  static const String MODEL_FILE_NAME = "tensorflow_model.tflite";
-  static const String LABEL_FILE_NAME = "labels.txt";
+  static const String MODEL_FILE_NAME = "assets/detect.tflite";
+  static const String LABEL_FILE_NAME = "labelmap.txt";
 
   /// Input size of image (height = width = 300)
   static const int INPUT_SIZE = 300;
@@ -170,8 +169,8 @@ class Classifier {
         // inverse of rect
         // [locations] corresponds to the image size 300 X 300
         // inverseTransformRect transforms it our [inputImage]
-        Rect transformedRect = imageProcessor!.inverseTransformRect(
-            locations[i], image.height, image.width);
+        Rect transformedRect = imageProcessor!
+            .inverseTransformRect(locations[i], image.height, image.width);
 
         recognitions.add(
           Recognition(i, label!, score, transformedRect),
@@ -187,7 +186,8 @@ class Classifier {
       "stats": Stats(
           totalPredictTime: predictElapsedTime,
           inferenceTime: inferenceTimeElapsed,
-          preProcessingTime: preProcessElapsedTime, totalElapsedTime: 25) // BE CAREFULL
+          preProcessingTime: preProcessElapsedTime,
+          totalElapsedTime: 25) // BE CAREFULL
     };
   }
 

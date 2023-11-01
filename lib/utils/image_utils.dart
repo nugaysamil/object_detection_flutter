@@ -6,14 +6,13 @@ import 'package:camera/camera.dart';
 import 'package:image/image.dart' as imageLib;
 import 'package:path_provider/path_provider.dart';
 
-
 /// ImageUtils
 class ImageUtils {
   /// Converts a [CameraImage] in YUV420 format to [imageLib.Image] in RGB format
   static imageLib.Image? convertCameraImage(CameraImage cameraImage) {
     if (cameraImage.format.group == ImageFormatGroup.yuv420) {
       return convertYUV420ToImage(cameraImage);
-    } else if (cameraImage.format.group == ImageFormatGroup.bgra8888) {
+    } else if (cameraImage.format.group == ImageFormatGroup.yuv420) {
       return convertBGRA8888ToImage(cameraImage);
     } else {
       return null;
@@ -23,8 +22,8 @@ class ImageUtils {
   /// Converts a [CameraImage] in BGRA888 format to [imageLib.Image] in RGB format
   static imageLib.Image convertBGRA8888ToImage(CameraImage cameraImage) {
     imageLib.Image img = imageLib.Image.fromBytes(
-      width: cameraImage.planes[0].width as int ,
-      height: cameraImage.planes[0].height as int ,
+      width: cameraImage.planes[0].width as int,
+      height: cameraImage.planes[0].height as int,
       bytes: cameraImage.planes[0].bytes as ByteBuffer,
     );
     return img;
@@ -50,8 +49,10 @@ class ImageUtils {
         final u = cameraImage.planes[1].bytes[uvIndex];
         final v = cameraImage.planes[2].bytes[uvIndex];
 
-        image.data![index] = ImageUtils.yuv2rgb(y, u, v); //
+        image.setPixel(w, h, ImageUtils.yuv2rgb(y, u, v) as imageLib.Color);
 
+        //image.data![index] =
+        //  ImageUtils.yuv2rgb(y, u, v) as imageLib.ImageData?; //
       }
     }
     return image;

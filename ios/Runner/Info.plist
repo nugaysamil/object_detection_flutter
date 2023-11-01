@@ -19,8 +19,14 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
+	
 	<string>$(FLUTTER_BUILD_NAME)</string>
+	
 	<key>CFBundleSignature</key>
+	<key>CFBundleShortVersionString</key>
+	<key>NSCameraUsageDescription</key>
+    <string>your usage description here</string>
+    <key>NSMicrophoneUsageDescription</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
