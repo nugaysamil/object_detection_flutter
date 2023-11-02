@@ -41,7 +41,7 @@ class IsolateUtils {
       if (Platform.isAndroid) {
         image = imageLib.copyRotate(image!, angle: 90);
       }
-      Map<String, dynamic>? results = classifier.predict(image!);
+      final results = classifier.predict(image!); //Map<String, dynamic>
       isolateData.responsePort!.send(results);
     }
   }

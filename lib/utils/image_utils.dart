@@ -12,7 +12,7 @@ class ImageUtils {
   static imageLib.Image? convertCameraImage(CameraImage cameraImage) {
     if (cameraImage.format.group == ImageFormatGroup.yuv420) {
       return convertYUV420ToImage(cameraImage);
-    } else if (cameraImage.format.group == ImageFormatGroup.yuv420) {
+    } else if (cameraImage.format.group == ImageFormatGroup.bgra8888) {
       return convertBGRA8888ToImage(cameraImage);
     } else {
       return null;

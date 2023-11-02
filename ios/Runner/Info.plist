@@ -19,9 +19,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	
 	<string>$(FLUTTER_BUILD_NAME)</string>
-	
 	<key>CFBundleSignature</key>
 	<key>CFBundleShortVersionString</key>
 	<key>NSCameraUsageDescription</key>
@@ -51,5 +49,12 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIApplicationSceneManifest</key>
+    <dict>
+        <key>UIApplicationSupportsMultipleScenes</key>
+        <false/>
+        <key>UISceneConfigurations</key>
+        <dict/>
+    </dict>
 </dict>
 </plist>
