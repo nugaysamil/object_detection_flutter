@@ -10,7 +10,7 @@ Future<void> main() async {
     cameras = await availableCameras();
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   } on CameraException catch (e) {
-    print('Error $e');
+    print('Camera not initialize $e');
   }
   runApp(const MyApp());
 }
@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Object Detection TFLite',
       theme: ThemeData(
         primarySwatch: Colors.blue,

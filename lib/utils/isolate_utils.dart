@@ -1,11 +1,9 @@
 import 'dart:io';
 import 'dart:isolate';
-
 import 'package:camera/camera.dart';
 import 'package:deneeme_tflite_new/tflite/classifier.dart';
 import 'package:deneeme_tflite_new/utils/image_utils.dart';
 import 'package:image/image.dart' as imageLib;
-
 import 'package:tflite_flutter/tflite_flutter.dart';
 
 /// Manages separate Isolate instance for inference
@@ -33,15 +31,16 @@ class IsolateUtils {
     sendPort.send(port.sendPort);
 
     await for (final IsolateData isolateData in port) {
-      Classifier classifier = Classifier(
+      final classifier = Classifier(
           interpreter: Interpreter.fromAddress(isolateData.interpreterAddress!),
           labels: isolateData.labels);
       imageLib.Image? image =
           ImageUtils.convertCameraImage(isolateData.cameraImage!);
-      if (Platform.isAndroid) {
+
+      if (Platform.isIOS) {
         image = imageLib.copyRotate(image!, angle: 90);
       }
-      final results = classifier.predict(image!); //Map<String, dynamic>
+      final results = classifier.predict(image!);
       isolateData.responsePort!.send(results);
     }
   }

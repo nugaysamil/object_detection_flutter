@@ -13,18 +13,21 @@ class ImageUtils {
     if (cameraImage.format.group == ImageFormatGroup.yuv420) {
       return convertYUV420ToImage(cameraImage);
     } else if (cameraImage.format.group == ImageFormatGroup.bgra8888) {
-      return convertBGRA8888ToImage(cameraImage);
+      ByteBuffer buffer =
+          Uint8List.fromList(cameraImage.planes[0].bytes).buffer;
+      return convertBGRA8888ToImage(cameraImage, buffer);
     } else {
       return null;
     }
   }
 
   /// Converts a [CameraImage] in BGRA888 format to [imageLib.Image] in RGB format
-  static imageLib.Image convertBGRA8888ToImage(CameraImage cameraImage) {
+  static imageLib.Image convertBGRA8888ToImage(
+      CameraImage cameraImage, ByteBuffer buffer) {
     imageLib.Image img = imageLib.Image.fromBytes(
       width: cameraImage.planes[0].width as int,
       height: cameraImage.planes[0].height as int,
-      bytes: cameraImage.planes[0].bytes as ByteBuffer,
+      bytes: buffer,
     );
     return img;
   }
@@ -49,10 +52,9 @@ class ImageUtils {
         final u = cameraImage.planes[1].bytes[uvIndex];
         final v = cameraImage.planes[2].bytes[uvIndex];
 
-        image.setPixel(w, h, ImageUtils.yuv2rgb(y, u, v) as imageLib.Color);
+        image.data!.setPixel(w, h, ImageUtils.yuv2rgb(y, u, v) as imageLib.Color);
 
-        //image.data![index] =
-        //  ImageUtils.yuv2rgb(y, u, v) as imageLib.ImageData?; //
+       // image.data![index] = ImageUtils.yuv2rgb(y, u, v); //
       }
     }
     return image;

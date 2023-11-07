@@ -124,7 +124,7 @@ class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
       // to another isolate.
 
       /// perform inference in separate isolate
-      Map<String, dynamic> inferenceResults = await inference(isolateData);
+      final inferenceResults = await inference(isolateData);
 
       var uiThreadInferenceElapsedTime =
           DateTime.now().millisecondsSinceEpoch - uiThreadTimeStart;
@@ -145,7 +145,7 @@ class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
 
   /// Runs inference in another isolate
   Future<Map<String, dynamic>> inference(IsolateData isolateData) async {
-    ReceivePort responsePort = ReceivePort();
+    final responsePort = ReceivePort();
     isolateUtils?.sendPort!
         .send(isolateData..responsePort = responsePort.sendPort);
     var results = await responsePort.first;

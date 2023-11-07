@@ -16,8 +16,10 @@ class Classifier {
   /// Labels file loaded as list
   List<String>? _labels;
 
-  static const String MODEL_FILE_NAME = "assets/detect.tflite";
-  static const String LABEL_FILE_NAME = "labelmap.txt";
+  // ignore: constant_identifier_names
+  static const String MODEL_FILE_NAME = "detect.tflite";
+  // ignore: constant_identifier_names
+  static const String LABEL_FILE_NAME = "labels.txt";
 
   /// Input size of image (height = width = 300)
   static const int INPUT_SIZE = 300;
@@ -35,7 +37,7 @@ class Classifier {
   List<List<int>>? _outputShapes;
 
   /// Types of output tensors
-  List<TfLiteType>? _outputTypes;
+  List<TensorType>? _outputTypes;
 
   /// Number of results to show
   static const int NUM_RESULTS = 10;
@@ -53,7 +55,7 @@ class Classifier {
     try {
       _interpreter = interpreter ??
           await Interpreter.fromAsset(
-            MODEL_FILE_NAME,
+            "assets/" + MODEL_FILE_NAME,
             options: InterpreterOptions()..threads = 4,
           );
 
@@ -62,7 +64,7 @@ class Classifier {
       _outputTypes = [];
       outputTensors?.forEach((tensor) {
         _outputShapes?.add(tensor.shape);
-        _outputTypes?.add(tensor.type as TfLiteType);
+        _outputTypes?.add(tensor.type);
       });
     } catch (e) {
       print("Error while creating interpreter: $e");
