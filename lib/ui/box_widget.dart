@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 
 /// Individual bounding box
 class BoxWidget extends StatelessWidget {
+  const BoxWidget({Key? key, required this.result}) : super(key: key);
+
+  // ignore: public_member_api_docs
   final Recognition result;
 
-  const BoxWidget({Key? key, required this.result}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     // Color for bounding box
@@ -35,7 +37,8 @@ class BoxWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Text(result.label),
-                  Text(" " + result.score.toStringAsFixed(2)),
+                  Text(' ${result.score.toStringAsFixed(2)}'),
+                  // Text(" " + result.score.toStringAsFixed(2)),
                 ],
               ),
             ),

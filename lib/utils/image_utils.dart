@@ -83,7 +83,7 @@ class ImageUtils {
   }
 
   static Future<void> saveImage(imageLib.Image image, [int i = 0]) async {
-    List<int> jpeg = imageLib.JpegEncoder().encode(image);
+    final List<int> jpeg = imageLib.JpegEncoder().encode(image);
     final appDir = await getTemporaryDirectory();
     final appPath = appDir.path;
     final fileOnDevice = File('$appPath/out$i.jpg');

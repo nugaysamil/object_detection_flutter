@@ -30,12 +30,12 @@ class _HomeViewState extends State<HomeView> {
       backgroundColor: Colors.black,
       body: Stack(
         children: <Widget>[
-          // Camera View
-          CameraView(resultsCallback, statsCallback),
+
+            CameraView(resultsCallback, statsCallback),
 
           // Bounding boxes
           boundingBoxes(results ?? []),
-
+ 
           // Heading
           Align(
             alignment: Alignment.topLeft,
@@ -73,25 +73,35 @@ class _HomeViewState extends State<HomeView> {
                       children: [
                         const Icon(Icons.keyboard_arrow_up,
                             size: 48, color: Colors.orange),
-                        (stats != null)
-                            ? Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    StatsRow('Inference time:',
-                                        '${stats?.inferenceTime} ms'),
-                                    StatsRow('Total prediction time:',
-                                        '${stats?.totalElapsedTime} ms'),
-                                    StatsRow('Pre-processing time:',
-                                        '${stats?.preProcessingTime} ms'),
-                                    StatsRow('Frame',
-                                        '${CameraViewSingleton.inputImageSize?.width} X ${CameraViewSingleton.inputImageSize?.height}'),
-                                  ],
+                        if (stats != null)
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Column(
+                              children: [
+                                StatsRow(
+                                  'Inference time:',
+                                  '${stats?.inferenceTime} ms',
                                 ),
-                              )
-                            : Container(
-                                child: Text('nulll'),
-                              )
+                                StatsRow(
+                                  'Total prediction time:',
+                                  '${stats?.totalElapsedTime} ms',
+                                ),
+                                StatsRow(
+                                  'Pre-processing time:',
+                                  '${stats?.preProcessingTime} ms',
+                                ),
+                                StatsRow(
+                                  'Frame',
+                                  // ignore: lines_longer_than_80_chars
+                                  '${CameraViewSingleton.inputImageSize?.width} X ${CameraViewSingleton.inputImageSize?.height}',
+                                ),
+                              ],
+                            ),
+                          )
+                        else
+                          Container(
+                            child: Text('nulll'),
+                          )
                       ],
                     ),
                   ),
@@ -104,7 +114,7 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  /// Returns Stack of bounding boxes
+   /// Returns Stack of bounding boxes
   Widget boundingBoxes(List<Recognition> results) {
     // ignore: unnecessary_null_comparison
     if (results == null) {
@@ -132,6 +142,9 @@ class _HomeViewState extends State<HomeView> {
       this.stats = stats;
     });
   }
+
+
+  
 
   static const BOTTOM_SHEET_RADIUS = Radius.circular(24.0);
   static const BORDER_RADIUS_BOTTOM_SHEET = BorderRadius.only(
