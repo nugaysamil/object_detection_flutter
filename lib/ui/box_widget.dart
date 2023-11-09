@@ -9,7 +9,7 @@ class BoxWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Color for bounding box
-    Color color = Colors.primaries[
+    final color = Colors.primaries[
         (result.label.length + result.label.codeUnitAt(0) + result.id) %
             Colors.primaries.length];
 
@@ -22,11 +22,13 @@ class BoxWidget extends StatelessWidget {
         width: result.renderLocation.width,
         height: result.renderLocation.height,
         decoration: BoxDecoration(
-            border: Border.all(color: color, width: 3),
-            borderRadius: BorderRadius.all(Radius.circular(2))),
+          border: Border.all(color: color, width: 3),
+          borderRadius: const BorderRadius.all(Radius.circular(2)),
+        ),
         child: Align(
           alignment: Alignment.topLeft,
           child: FittedBox(
+            // ignore: use_colored_box
             child: Container(
               color: color,
               child: Row(

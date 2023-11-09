@@ -5,6 +5,9 @@ import 'package:flutter/cupertino.dart';
 
 /// Represents the recognition output from the model
 class Recognition {
+  // ignore: public_member_api_docs
+  Recognition(this._id, this._label, this._score, this._location);
+
   /// Index of the result
   final int _id;
 
@@ -18,16 +21,18 @@ class Recognition {
   ///
   /// The rectangle corresponds to the raw input image
   /// passed for inference
-  Rect _location;
+  final Rect _location;
 
-  Recognition(this._id, this._label, this._score, this._location); // BE CAREFULL
-
+  // ignore: public_member_api_docs
   int get id => _id;
 
+  // ignore: public_member_api_docs
   String get label => _label;
 
+  // ignore: public_member_api_docs
   double get score => _score;
 
+  // ignore: public_member_api_docs
   Rect get location => _location;
 
   /// Returns bounding box rectangle corresponding to the
@@ -39,23 +44,28 @@ class Recognition {
     // ratioX = screenWidth / imageInputWidth
     // ratioY = ratioX if image fits screenWidth with aspectRatio = constant
 
-    double? ratioX = CameraViewSingleton.ratio;
-    double? ratioY = ratioX;
+    final ratioX = CameraViewSingleton.ratio;
+    final ratioY = ratioX;
 
-    double transLeft = max(0.1, location.left * ratioX!);
-    double transTop = max(0.1, location.top * ratioY!);
-    double transWidth = min(
-        location.width * ratioX, CameraViewSingleton.actualPreviewSize!.width);
-    double transHeight = min(
-        location.height * ratioY, CameraViewSingleton.actualPreviewSize!.height);
+    final transLeft = max(0.1, location.left * ratioX!);
+    final transTop = max(0.1, location.top * ratioY!);
+    final transWidth = min(
+      location.width * ratioX,
+      CameraViewSingleton.actualPreviewSize!.width,
+    );
+    final transHeight = min(
+      location.height * ratioY,
+      CameraViewSingleton.actualPreviewSize!.height,
+    );
 
-    Rect transformedRect =
+    final transformedRect =
         Rect.fromLTWH(transLeft, transTop, transWidth, transHeight);
     return transformedRect;
   }
 
   @override
   String toString() {
+    // ignore: lines_longer_than_80_chars
     return 'Recognition(id: $id, label: $label, score: $score, location: $location)';
   }
 }

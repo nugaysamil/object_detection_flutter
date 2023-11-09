@@ -13,5 +13,7 @@
     "string_view": "cpp",
     "unordered_map": "cpp",
     "vector": "cpp"
-  }
+  },
+  "cmake.sourceDirectory": "/Users/samilnugay/Downloads/tenserflow_flutter/linux",
+  "cSpell.words": ["LTWH"]
 }

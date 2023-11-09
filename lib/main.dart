@@ -6,12 +6,7 @@ import 'package:flutter/services.dart';
 List<CameraDescription>? cameras;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  try {
-    cameras = await availableCameras();
-    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  } on CameraException catch (e) {
-    print('Camera not initialize $e');
-  }
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(const MyApp());
 }
 

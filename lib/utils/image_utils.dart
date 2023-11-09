@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -13,8 +15,7 @@ class ImageUtils {
     if (cameraImage.format.group == ImageFormatGroup.yuv420) {
       return convertYUV420ToImage(cameraImage);
     } else if (cameraImage.format.group == ImageFormatGroup.bgra8888) {
-      ByteBuffer buffer =
-          Uint8List.fromList(cameraImage.planes[0].bytes).buffer;
+      final buffer = Uint8List.fromList(cameraImage.planes[0].bytes).buffer;
       return convertBGRA8888ToImage(cameraImage, buffer);
     } else {
       return null;
@@ -23,10 +24,12 @@ class ImageUtils {
 
   /// Converts a [CameraImage] in BGRA888 format to [imageLib.Image] in RGB format
   static imageLib.Image convertBGRA8888ToImage(
-      CameraImage cameraImage, ByteBuffer buffer) {
-    imageLib.Image img = imageLib.Image.fromBytes(
-      width: cameraImage.planes[0].width as int,
-      height: cameraImage.planes[0].height as int,
+    CameraImage cameraImage,
+    ByteBuffer buffer,
+  ) {
+    final img = imageLib.Image.fromBytes(
+      width: cameraImage.planes[0].width!,
+      height: cameraImage.planes[0].height!,
       bytes: buffer,
     );
     return img;
@@ -34,27 +37,28 @@ class ImageUtils {
 
   /// Converts a [CameraImage] in YUV420 format to [imageLib.Image] in RGB format
   static imageLib.Image convertYUV420ToImage(CameraImage cameraImage) {
-    final int width = cameraImage.width;
-    final int height = cameraImage.height;
+    final width = cameraImage.width;
+    final height = cameraImage.height;
 
-    final int uvRowStride = cameraImage.planes[1].bytesPerRow;
-    final int? uvPixelStride = cameraImage.planes[1].bytesPerPixel;
+    final uvRowStride = cameraImage.planes[1].bytesPerRow;
+    final uvPixelStride = cameraImage.planes[1].bytesPerPixel;
 
     final image = imageLib.Image(width: width, height: height);
 
-    for (int w = 0; w < width; w++) {
-      for (int h = 0; h < height; h++) {
-        final int uvIndex =
+    for (var w = 0; w < width; w++) {
+      for (var h = 0; h < height; h++) {
+        final uvIndex =
             uvPixelStride! * (w / 2).floor() + uvRowStride * (h / 2).floor();
-        final int index = h * width + w;
+        final index = h * width + w;
 
         final y = cameraImage.planes[0].bytes[index];
         final u = cameraImage.planes[1].bytes[uvIndex];
         final v = cameraImage.planes[2].bytes[uvIndex];
 
-        image.data!.setPixel(w, h, ImageUtils.yuv2rgb(y, u, v) as imageLib.Color);
+        image.data!
+            .setPixel(w, h, ImageUtils.yuv2rgb(y, u, v) as imageLib.Color);
 
-       // image.data![index] = ImageUtils.yuv2rgb(y, u, v); //
+        // image.data![index] = ImageUtils.yuv2rgb(y, u, v); //
       }
     }
     return image;
@@ -63,9 +67,9 @@ class ImageUtils {
   /// Convert a single YUV pixel to RGB
   static int yuv2rgb(int y, int u, int v) {
     // Convert yuv pixel to rgb
-    int r = (y + v * 1436 / 1024 - 179).round();
-    int g = (y - u * 46549 / 131072 + 44 - v * 93604 / 131072 + 91).round();
-    int b = (y + u * 1814 / 1024 - 227).round();
+    var r = (y + v * 1436 / 1024 - 179).round();
+    var g = (y - u * 46549 / 131072 + 44 - v * 93604 / 131072 + 91).round();
+    var b = (y + u * 1814 / 1024 - 227).round();
 
     // Clipping RGB values to be inside boundaries [ 0 , 255 ]
     r = r.clamp(0, 255);
@@ -78,7 +82,7 @@ class ImageUtils {
         (r & 0xff);
   }
 
-  static void saveImage(imageLib.Image image, [int i = 0]) async {
+  static Future<void> saveImage(imageLib.Image image, [int i = 0]) async {
     List<int> jpeg = imageLib.JpegEncoder().encode(image);
     final appDir = await getTemporaryDirectory();
     final appPath = appDir.path;

@@ -11,7 +11,7 @@ class IsolateUtils {
   static const String DEBUG_NAME = "InferenceIsolate";
 
   Isolate? _isolate;
-  final ReceivePort? _receivePort = ReceivePort();
+  ReceivePort? _receivePort = ReceivePort();
   SendPort? _sendPort;
 
   SendPort? get sendPort => _sendPort;
@@ -23,14 +23,15 @@ class IsolateUtils {
       debugName: DEBUG_NAME,
     );
 
-    _sendPort = await _receivePort?.first;
+    _sendPort = await _receivePort!.first as SendPort;
   }
 
-  static void entryPoint(SendPort sendPort) async {
+  // ignore: public_member_api_docs
+  static Future<void> entryPoint(SendPort sendPort) async {
     final port = ReceivePort();
     sendPort.send(port.sendPort);
 
-    await for (final IsolateData isolateData in port) {
+    await for (final IsolateData isolateData in port as Stream<IsolateData>) {
       final classifier = Classifier(
           interpreter: Interpreter.fromAddress(isolateData.interpreterAddress!),
           labels: isolateData.labels);
