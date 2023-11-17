@@ -1,29 +1,28 @@
 name: deneeme_tflite_new
 description: A new Flutter project.
 
-publish_to: 'none' 
+publish_to: "none"
 
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.1.3 <4.0.0'
-
+  sdk: ">=3.1.3 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  
+
   cupertino_icons: ^1.0.2
   tflite_flutter: ^0.10.3
   camera: ^0.10.5+5
-  image: ^4.1.3
   path_provider: ^2.1.1
   build_runner: ^2.4.6
+  image: ^4.1.3
 
   tflite_flutter_helper_plus:
     git:
       url: https://github.com/nugaysamil/tenserflow_helper.git
-     
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -31,15 +30,12 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   very_good_analysis: ^5.1.0
 
-
 flutter:
-
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
-
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

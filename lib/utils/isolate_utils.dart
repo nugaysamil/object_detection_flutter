@@ -45,7 +45,7 @@ class IsolateUtils {
       /* imageLib.Image? image =
           ImageUtils.convertCameraImage(isolateData.cameraImage!); */
 
-      if (Platform.isIOS) {
+      if (Platform.isAndroid) {
         image = imageLib.copyRotate(image!, angle: 90);
       }
       final results = classifier.predict(image!);

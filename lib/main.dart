@@ -4,6 +4,7 @@ import 'package:deneeme_tflite_new/ui/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+// ignore: public_member_api_docs
 List<CameraDescription>? cameras;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,7 +13,9 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
+// ignore: public_member_api_docs
 class MyApp extends StatelessWidget {
+  // ignore: public_member_api_docs
   const MyApp({super.key});
 
   @override
