@@ -72,7 +72,7 @@ class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
 
     // cameras[0] for rear-camera
     cameraController =
-        CameraController(cameras[0], ResolutionPreset.low, enableAudio: false);
+        CameraController(cameras[0], ResolutionPreset.high, enableAudio: false);
 
     await cameraController?.initialize().then((_) async {
       // Stream of image passed to [onLatestImageAvailable] callback
@@ -102,9 +102,13 @@ class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
       return Container();
     }
 
-    return AspectRatio(
-      aspectRatio: cameraController!.value.aspectRatio,
-      child: CameraPreview(cameraController!),
+    return Container(
+      width: 500,
+      height: 600,
+      child: AspectRatio(
+        aspectRatio: cameraController!.value.aspectRatio,
+        child: CameraPreview(cameraController!),
+      ),
     );
   }
 
@@ -171,12 +175,10 @@ class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
     switch (state) {
       case AppLifecycleState.paused:
         await cameraController?.stopImageStream();
-        break;
       case AppLifecycleState.resumed:
         if (!cameraController!.value.isStreamingImages) {
           await cameraController?.startImageStream(onLatestImageAvailable);
         }
-      // break;
       default:
     }
   }

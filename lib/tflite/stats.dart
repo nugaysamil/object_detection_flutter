@@ -4,7 +4,7 @@
 class Stats {
   Stats({
     required this.totalPredictTime,
-    required this.totalElapsedTime,
+    this.totalElapsedTime, 
     required this.inferenceTime,
     required this.preProcessingTime,
   });
@@ -14,7 +14,7 @@ class Stats {
 
   /// [totalPredictTime] + communication overhead time
   /// between main isolate and another isolate
-  int totalElapsedTime;
+  int? totalElapsedTime; 
 
   /// Time for which inference runs
   int inferenceTime;

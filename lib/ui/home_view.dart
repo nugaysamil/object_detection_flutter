@@ -30,19 +30,18 @@ class _HomeViewState extends State<HomeView> {
       backgroundColor: Colors.black,
       body: Stack(
         children: <Widget>[
-
-            CameraView(resultsCallback, statsCallback),
+          CameraView(resultsCallback, statsCallback),
 
           // Bounding boxes
           boundingBoxes(results ?? []),
- 
+
           // Heading
           Align(
             alignment: Alignment.topLeft,
             child: Container(
-              padding: EdgeInsets.only(top: 20),
+              padding: EdgeInsets.only(top: 60),
               child: Text(
-                'Object Detection Flutter',
+                '',
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontSize: 28,
@@ -99,22 +98,20 @@ class _HomeViewState extends State<HomeView> {
                             ),
                           )
                         else
-                          Container(
-                            child: Text('nulll'),
-                          )
+                          const Text('Error getting stats'),
                       ],
                     ),
                   ),
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
   }
 
-   /// Returns Stack of bounding boxes
+  /// Returns Stack of bounding boxes
   Widget boundingBoxes(List<Recognition> results) {
     // ignore: unnecessary_null_comparison
     if (results == null) {
@@ -122,9 +119,11 @@ class _HomeViewState extends State<HomeView> {
     }
     return Stack(
       children: results
-          .map((e) => BoxWidget(
-                result: e,
-              ))
+          .map(
+            (e) => BoxWidget(
+              result: e,
+            ),
+          )
           .toList(),
     );
   }
@@ -142,9 +141,6 @@ class _HomeViewState extends State<HomeView> {
       this.stats = stats;
     });
   }
-
-
-  
 
   static const BOTTOM_SHEET_RADIUS = Radius.circular(24.0);
   static const BORDER_RADIUS_BOTTOM_SHEET = BorderRadius.only(

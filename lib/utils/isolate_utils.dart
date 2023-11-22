@@ -30,7 +30,7 @@ class IsolateUtils {
     _sendPort = await _receivePort!.first as SendPort?;
   }
 
-  // ignore: public_member_api_docs
+
   static Future<void> entryPoint(SendPort sendPort) async {
     final port = ReceivePort();
     sendPort.send(port.sendPort);

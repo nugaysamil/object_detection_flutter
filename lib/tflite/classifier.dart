@@ -185,8 +185,7 @@ class Classifier {
         totalPredictTime: predictElapsedTime,
         inferenceTime: inferenceTimeElapsed,
         preProcessingTime: preProcessElapsedTime,
-        totalElapsedTime: 25,
-      ), // BE CAREFUL
+      ), 
     };
   }
 
