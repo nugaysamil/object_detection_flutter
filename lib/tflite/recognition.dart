@@ -41,6 +41,10 @@ class Recognition {
   /// This is the actual location where rectangle is rendered on
   /// the screen
   Rect get renderLocation {
+    //is responsible for calculating the location of the bounding box in the rendered image on the screen. This method performs 
+    //transformations to adapt the bounding box coordinates from the raw input image passed for inference to the actual location where the 
+    //rectangle is rendered on the screen.
+
     // ratioX = screenWidth / imageInputWidth
     // ratioY = ratioX if image fits screenWidth with aspectRatio = constant
 
@@ -62,6 +66,9 @@ class Recognition {
         Rect.fromLTWH(transLeft, transTop, transWidth, transHeight);
     return transformedRect;
   }
+  //renderLocation method is crucial for adapting the bounding box coordinates from the raw input image dimensions
+  //to the actual location where the rectangle is displayed on the screen, considering the screen size and aspect ratio. 
+  //This ensures that the bounding box is correctly positioned and sized relative to the rendered image on the user interface.
 
   @override
   String toString() {

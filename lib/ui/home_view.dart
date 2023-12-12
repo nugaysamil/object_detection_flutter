@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'camera_view.dart';
 
 /// [HomeView] stacks [CameraView] and [BoxWidget]s with bottom sheet for stats
-class HomeView extends StatefulWidget {
+class HomeView extends StatefulWidget { //statefulwidget-> mutable state that can change later
   @override
   // ignore: library_private_types_in_public_api
   _HomeViewState createState() => _HomeViewState();
@@ -21,19 +21,23 @@ class _HomeViewState extends State<HomeView> {
   Stats? stats;
 
   /// Scaffold Key
-  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey(); //for the material design visual lyout
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { //defines UI for homeview. uses scaffold widget
+  //as main container with a black container
+
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.black,
       body: Stack(
         children: <Widget>[
-          CameraView(resultsCallback, statsCallback),
+          CameraView(resultsCallback, statsCallback), //displaying camera view
+          //takes callback functions
 
           // Bounding boxes
-          boundingBoxes(results ?? []),
+          boundingBoxes(results ?? []), //tack of bounding boxes 
+          //(likely drawn on top of the camera view) based on the recognition results.
 
           // Heading
           Align(
@@ -113,6 +117,8 @@ class _HomeViewState extends State<HomeView> {
 
   /// Returns Stack of bounding boxes
   Widget boundingBoxes(List<Recognition> results) {
+    //The boundingBoxes method takes a list of recognition results and returns a Stack of BoxWidget instances. 
+    //It iterates over the recognition results and creates a BoxWidget for each recognition, presumably to draw bounding boxes on the screen.
     // ignore: unnecessary_null_comparison
     if (results == null) {
       return Container();
@@ -129,7 +135,8 @@ class _HomeViewState extends State<HomeView> {
   }
 
   /// Callback to get inference results from [CameraView]
-  void resultsCallback(List<Recognition> results) {
+  void resultsCallback(List<Recognition> results) { //resultsCallback and statsCallback are callback functions used to update 
+  //the state of _HomeViewState with new recognition results and stats received from the CameraView.
     setState(() {
       this.results = results;
     });
@@ -148,7 +155,8 @@ class _HomeViewState extends State<HomeView> {
 }
 
 /// Row for one Stats field
-class StatsRow extends StatelessWidget {
+class StatsRow extends StatelessWidget { //StatsRow is a simple stateless widget that represents a 
+//row for displaying statistics. It takes a left and right string and displays them in a row with space between them.
   final String left;
   final String right;
 

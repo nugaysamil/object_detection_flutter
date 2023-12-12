@@ -115,14 +115,29 @@ class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
   /// Callback to receive each frame [CameraImage] perform inference on it
   Future<void> onLatestImageAvailable(CameraImage cameraImage) async {
     if (classifier?.interpreter != null && classifier?.labels != null) {
+       //It performs inference on the image using a separate isolate and then calls the callback functions to pass the 
+       //results and stats back to the parent widget (HomeView).
       // If previous inference has not completed then return
       if (predicting!) {
         return;
+
       }
 
       setState(() {
         predicting = true;
+        //This code is used to set the predicting variable to true, indicating that an inference operation is in progress. The setState call triggers a rebuild, updating the UI to reflect the change in the predicting state.
+
+        //Remember that setState should only be called from methods that are part of the State object, typically within the methods of the StatefulWidget 
+        //(e.g., initState, event handlers, etc.). It's a mechanism for coordinating changes in the widget's state with the framework's rendering pipeline.
+        //Whenever the internal state of a StatefulWidget changes, and you want to reflect that change in the user interface, you should call setState. 
+        //This change could be due to user interactions, asynchronous operations completing, or any other event that causes a change in the widget's state
       });
+
+      //The if (predicting!) check is used to determine whether there is an ongoing inference operation. If predicting is currently true, it means that 
+      //a previous inference is still in progress, and the method returns early without starting a new inference.
+
+      //If predicting is false, it means that there is no ongoing inference, and the setState method is used to set predicting to true. This update triggers 
+      //a rebuild of the widget, which is crucial for reflecting the change in the UI.
 
       final uiThreadTimeStart = DateTime.now().millisecondsSinceEpoch;
 
@@ -139,26 +154,33 @@ class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
 
       /// perform inference in separate isolate
       final inferenceResults = await inference(isolateData);
+      //Calls the inference method to perform inference in a separate isolate. The await keyword is used to wait for the results.
 
       final uiThreadInferenceElapsedTime =
           DateTime.now().millisecondsSinceEpoch - uiThreadTimeStart;
+          //Calculates the total time taken for the inference on the UI thread by subtracting the start time recorded earlier from the current time.
 
       // pass results to HomeView
       widget.resultsCallback(
         inferenceResults['recognitions'] as List<Recognition>,
+        //Calls the resultsCallback callback function provided by the parent widget (HomeView) to pass the recognition results.
       );
 
       // pass stats to HomeView
       widget.statsCallback(
         (inferenceResults['stats'] as Stats)
           ..totalElapsedTime = uiThreadInferenceElapsedTime,
+          //Calls the statsCallback callback function to pass the inference statistics. It also updates the totalElapsedTime property of the Stats object with the time taken for inference on the UI thread.
       );
 
       // set predicting to false to allow new frames
       setState(() {
         predicting = false;
       });
+      print('predicting: $predicting');
     }
+    
+
   }
 
   /// Runs inference in another isolate
@@ -171,7 +193,8 @@ class _CameraViewState extends State<CameraView> with WidgetsBindingObserver {
   }
 
   @override
-  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async { //method is called when the app lifecycle state changes 
+  //(e.g., when the app is paused or resumed). It starts or stops the image stream accordingly.
     switch (state) {
       case AppLifecycleState.paused:
         await cameraController?.stopImageStream();
